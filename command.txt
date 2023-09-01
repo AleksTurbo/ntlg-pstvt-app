@@ -4,3 +4,4 @@ docker run -d -p 4080:80 ntlg-pstvt-app --rm
 
 ssh -vT git@github.com
 git remote set-url origin git@github.com:AleksTurbo/ntlg-pstvt-app.git
+ssh -T git@github.com
