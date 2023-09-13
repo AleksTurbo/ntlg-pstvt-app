@@ -20,16 +20,19 @@ spec:
          ports:
            - containerPort: 80
 ---
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: ntlg-pustovit-service
   namespace: stage
 spec:
+  type: LoadBalancer
   selector:
     app: ntlg-pustovit-app
   ports:
-    - port: 80
+  - protocol: TCP
+    port: 80
+    targetPort: 80
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -38,10 +41,14 @@ metadata:
   namespace: stage
   annotations:
     kubernetes.io/ingress.class: nginx
+    ingress.alb.yc.io/subnets: enp0vphumjjlsrcsubin
+    ingress.alb.yc.io/security-groups: enpo332e9qt4lpv6iico
+    ingress.alb.yc.io/external-ipv4-address: auto
 spec:
   ingressClassName: nginx
   rules:
-    - http:
+    - host:
+      http:
         paths:
           - path: "/"
             pathType: Prefix
