@@ -67,8 +67,8 @@ release:
   stage: release
   tags:
     - runner
-  only:
-    - main
+  rules:
+      - if: '$CI_COMMIT_BRANCH == main'
   script:
     - echo pwd
     - sed -i "s/__VERSION__/${VERSION}.${CI_PIPELINE_ID}/" manifest.yaml

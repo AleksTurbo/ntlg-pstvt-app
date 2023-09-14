@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
        - name: ntlg-pustovit-app
-         image: aleksturbo/ntlg-pstvt-app:__VERSION__
+         image: aleksturbo/ntlg-pstvt-app:0.0.0.95.998805961
          imagePullPolicy: Always
          ports:
            - containerPort: 80
@@ -24,36 +24,31 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ntlg-pustovit-service
+  labels:
+    app: ntlg-pustovit-service
   namespace: stage
 spec:
-  type: LoadBalancer
   selector:
     app: ntlg-pustovit-app
   ports:
   - protocol: TCP
     port: 80
     targetPort: 80
+
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: v1
+kind: Service
 metadata:
-  name: ntlg-pustovit-ingress
+  name: ntlg-pustovit-service-np
+  labels:
+    app: ntlg-pustovit-service-np
   namespace: stage
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    ingress.alb.yc.io/subnets: enp0vphumjjlsrcsubin
-    ingress.alb.yc.io/security-groups: enpo332e9qt4lpv6iico
-    ingress.alb.yc.io/external-ipv4-address: auto
 spec:
-  ingressClassName: nginx
-  rules:
-    - host:
-      http:
-        paths:
-          - path: "/"
-            pathType: Prefix
-            backend:
-              service:
-                name: ntlg-pustovit-service
-                port:
-                  number: 80
+  type: NodePort
+  selector:
+    app: ntlg-pustovit-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30008
