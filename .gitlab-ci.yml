@@ -33,8 +33,6 @@ build-image:
   variables:
     COMMIT_TIME: $(git_timestamp)
   before_script:
-    - echo ${CI_DOCKER_USER}
-    - echo ${CI_JOB_TOKEN}
     - AUTH=$(echo -n ${CI_DOCKER_USER}:${CI_JOB_TOKEN} | base64)
     - cp -f "${CI_PROJECT_DIR}/config.json" /kaniko/.docker/config.json
     - sed -i "s/PLACE_HOLDER/$AUTH/" /kaniko/.docker/config.json
