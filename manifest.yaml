@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
        - name: ntlg-pustovit-app
-         image: aleksturbo/ntlg-pstvt-app:0.0.0.95.998805961
+         image: aleksturbo/ntlg-pstvt-app:__VERSION__
          imagePullPolicy: Always
          ports:
            - containerPort: 80
